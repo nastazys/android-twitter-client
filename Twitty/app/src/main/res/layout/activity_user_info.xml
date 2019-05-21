@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/Toolbar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_image_view"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/user_name_text_view"
+            style="@style/TextView.Primary.Header"
+            android:layout_below="@id/user_image_view"
+            android:layout_marginTop="@dimen/text_small_margin"
+            android:text="Имя" />
+
+        <TextView
+            android:id="@+id/user_nick_text_view"
+            style="@style/TextView.Secondary"
+            android:layout_below="@id/user_name_text_view"
+            android:layout_marginTop="@dimen/text_small_margin"
+            android:text="Ник" />
+
+        <TextView
+            android:id="@+id/user_description_text_view"
+            style="@style/TextView.Primary"
+            android:layout_below="@id/user_nick_text_view"
+            android:layout_marginTop="@dimen/text_small_margin"
+            android:text="Описание" />
+
+        <TextView
+            android:id="@+id/following_count_text_view"
+            style="@style/TextView.Primary.Bold"
+            android:layout_below="@id/user_description_text_view"
+            android:layout_marginTop="@dimen/text_small_margin"
+            android:text="4" />
+
+        <TextView
+            android:id="@+id/following_text_view"
+            style="@style/TextView.Secondary"
+            android:layout_below="@id/user_description_text_view"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="@dimen/text_small_margin"
+            android:layout_toEndOf="@+id/following_count_text_view"
+            android:text="@string/following_hint" />
+
+        <TextView
+            android:id="@+id/followers_count_text_view"
+            style="@style/TextView.Primary.Bold"
+            android:layout_below="@id/user_description_text_view"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="@dimen/text_small_margin"
+            android:layout_toEndOf="@+id/following_text_view"
+            android:text="4" />
+
+        <TextView
+            android:id="@+id/followers_text_view"
+            style="@style/TextView.Secondary"
+            android:layout_below="@id/user_description_text_view"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="@dimen/text_small_margin"
+            android:layout_toEndOf="@+id/followers_count_text_view"
+            android:text="@string/followers_hint" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/delimeter_view"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_marginTop="@dimen/text_small_margin"
+        android:background="@color/gray_mercury"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/tweets_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
