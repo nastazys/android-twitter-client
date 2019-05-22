@@ -10,11 +10,19 @@
         style="@style/Toolbar"/>
 
     <RelativeLayout
+        android:id="@+id/user_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <!-- <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background" />  -->
+
+        <ImageView
             android:id="@+id/user_image_view"
             android:layout_width="96dp"
             android:layout_height="96dp"

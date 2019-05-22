@@ -1,12 +1,15 @@
 package com.example.twitty.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.example.twitty.R;
 import com.example.twitty.pojo.SimpleUser;
+import com.example.twitty.task.MainUserInfoTask;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
@@ -22,6 +25,8 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import com.twitter.sdk.android.core.models.User;
 
+import java.util.concurrent.ExecutionException;
+
 import retrofit2.Call;
 
 public class LoginActivity extends AppCompatActivity {
@@ -29,12 +34,14 @@ public class LoginActivity extends AppCompatActivity {
     TwitterLoginButton loginButton;
     TwitterSession session;
     SimpleUser user;
+    TextView infoTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Twitter.initialize(this);
         setContentView(R.layout.activity_login);
+        infoTextView = findViewById(R.id.display);
         TwitterConfig config = new TwitterConfig.Builder(this)
                 .logger(new DefaultLogger(Log.DEBUG))
                 .twitterAuthConfig(new TwitterAuthConfig(
@@ -49,22 +56,21 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void success(Result<TwitterSession> result) {
                 session = TwitterCore.getInstance().getSessionManager().getActiveSession();
-                //TwitterAuthToken authToken = session.getAuthToken();
-                //long userID = result.data.getId();
-                getMainUser();
 
+                /*try {
+                    user = new MainUserInfoTask(LoginActivity.this).execute().get();
+                } catch (InterruptedException e) {
+                } catch (ExecutionException e) {
+                }*/
                 Intent intent = new Intent(LoginActivity.this, UserInfoActivity.class);
-                intent.putExtra("userName", user.getName());
-                intent.putExtra("id", user.getId());
-                intent.putExtra("profileImageUrl", user.getImageUrl());
-                intent.putExtra("description", user.getDescription());
-                intent.putExtra("followingCount", user.getFollowingNum());
-                intent.putExtra("followersCount", user.getFollowersNum());
+                intent.putExtra("userId", session.getUserId());
                 startActivity(intent);
+
             }
 
             @Override
             public void failure(TwitterException exception) {
+                infoTextView.setText(R.string.failed_to_authorize_message);
             }
         });
     }
@@ -76,7 +82,16 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.onActivityResult(requestCode, resultCode, data);
     }
 
-    public User getMainUser() {
+
+    /*class UserInfoTask extends AsyncTask<String, Integer, Void>{
+        @Override
+        protected Void doInBackground(String[] objects) {
+            getMainUser();
+            return null;
+        }
+    }
+
+    public void getMainUser() {
         TwitterApiClient apiClient = new TwitterApiClient(session);
         Call<User> userResult = apiClient.getAccountService()
                 .verifyCredentials(true, false, false);
@@ -90,6 +105,6 @@ public class LoginActivity extends AppCompatActivity {
             public void failure(TwitterException exception) {
             }
         });
-    }
+    }*/
 
 }

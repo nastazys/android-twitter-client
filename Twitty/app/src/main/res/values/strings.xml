@@ -3,6 +3,8 @@
     <string name="following_hint">Following</string>
 
     <string name="app_name">Twitty</string>
+    <string name="failed_to_authorize_message">Failed to authorize :(</string>
+    <string name="authorize_message">:)</string>
     <string name="com.twitter.sdk.android.CONSUMER_KEY">Ccr0TU06HVKHmYkjvi4nwsXhE</string>
     <string name="com.twitter.sdk.android.CONSUMER_SECRET">TP0D1RV4yds4kEBF2OP3FluwJOI58hzlyxGk5AENC6zkzfNBip </string>
 </resources>
