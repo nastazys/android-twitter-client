@@ -98,7 +98,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
         Picasso.get().load(user.getImageUrl()).into(userImageView);
         nameTextView.setText(user.getName());
-        //!!!!nickTextView.setText(user.getNick());
+        nickTextView.setText(user.getNick());
         descriptionTextView.setText(user.getDescription());
 
         String followingCount = String.valueOf(user.getFollowingNum());

@@ -4,7 +4,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ListView;
 
 import com.example.twitty.R;
 import com.example.twitty.pojo.SimpleUser;
@@ -22,11 +26,19 @@ import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.TwitterApiClient;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
+import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.core.models.User;
+import com.twitter.sdk.android.core.services.StatusesService;
+import com.twitter.sdk.android.tweetui.FixedTweetTimeline;
+import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
+
+import java.util.List;
 
 import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity {
+    //private Toolbar toolbar;
+    TweetTimelineListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,5 +46,57 @@ public class MainActivity extends AppCompatActivity {
         Twitter.initialize(this);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Home");
+
+        loadTweets();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.info_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_home) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+
+        if (item.getItemId() == R.id.action_search) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+        return true;
+    }
+
+    private void displayTweets() {
+
+    }
+
+    private void loadTweets() {
+        final StatusesService statusesService = TwitterCore.getInstance().getApiClient().getStatusesService();
+        Call<List<Tweet>> list = statusesService
+                .homeTimeline(800, null, null, false, false, false, null);
+        list.enqueue(new Callback<List<Tweet>>() {
+            @Override
+            public void success(Result<List<Tweet>> result) {
+                final FixedTweetTimeline userTimeline = new FixedTweetTimeline.Builder()
+                        .setTweets(result.data)
+                        .build();
+                adapter = new TweetTimelineListAdapter.Builder(MainActivity.this)
+                        .setTimeline(userTimeline)
+                        .setViewStyle(R.style.tw__TweetDarkWithActionsStyle)
+                        .build();
+                ListView lv = (ListView) findViewById(R.id.tweets_list_view);
+                lv.setAdapter(adapter);
+            }
+            @Override
+            public void failure(TwitterException exception) {
+            }
+        });
     }
 }

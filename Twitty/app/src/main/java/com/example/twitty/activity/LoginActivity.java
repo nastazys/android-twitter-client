@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                 } catch (ExecutionException e) {
                 }*/
-                Intent intent = new Intent(LoginActivity.this, UserInfoActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.putExtra("userId", session.getUserId());
                 startActivity(intent);
 
@@ -90,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
             return null;
         }
     }
-
     public void getMainUser() {
         TwitterApiClient apiClient = new TwitterApiClient(session);
         Call<User> userResult = apiClient.getAccountService()
@@ -100,7 +99,6 @@ public class LoginActivity extends AppCompatActivity {
             public void success(Result<User> result) {
                 user = new SimpleUser (result.data);
             }
-
             @Override
             public void failure(TwitterException exception) {
             }
