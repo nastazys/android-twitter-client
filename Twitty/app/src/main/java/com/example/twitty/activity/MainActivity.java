@@ -4,15 +4,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 
 import com.example.twitty.R;
-import com.example.twitty.pojo.SimpleUser;
-import com.example.twitty.task.MainUserInfoTask;
+import com.example.twitty.adapter.TweetAdapter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
@@ -38,7 +38,8 @@ import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity {
     //private Toolbar toolbar;
-    TweetTimelineListAdapter adapter;
+    private RecyclerView tweetsRecyclerView;
+    private TweetAdapter tweetAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Home");
+
+        tweetsRecyclerView = findViewById(R.id.tweets_recycler_view);
+        tweetsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        tweetAdapter = new TweetAdapter();
+        tweetsRecyclerView.setAdapter(tweetAdapter);
 
         loadTweets();
     }
@@ -73,10 +79,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void displayTweets() {
-
-    }
-
     private void loadTweets() {
         final StatusesService statusesService = TwitterCore.getInstance().getApiClient().getStatusesService();
         Call<List<Tweet>> list = statusesService
@@ -87,12 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 final FixedTweetTimeline userTimeline = new FixedTweetTimeline.Builder()
                         .setTweets(result.data)
                         .build();
-                adapter = new TweetTimelineListAdapter.Builder(MainActivity.this)
-                        .setTimeline(userTimeline)
-                        .setViewStyle(R.style.tw__TweetDarkWithActionsStyle)
-                        .build();
-                ListView lv = (ListView) findViewById(R.id.tweets_list_view);
-                lv.setAdapter(adapter);
+                tweetAdapter.setItems(result.data);
             }
             @Override
             public void failure(TwitterException exception) {
