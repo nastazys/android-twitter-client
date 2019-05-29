@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         tweetsRecyclerView = findViewById(R.id.tweets_recycler_view);
         tweetsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        tweetAdapter = new TweetAdapter();
+        tweetAdapter = new TweetAdapter(MainActivity.this);
         tweetsRecyclerView.setAdapter(tweetAdapter);
 
         loadTweets();
@@ -86,9 +86,6 @@ public class MainActivity extends AppCompatActivity {
         list.enqueue(new Callback<List<Tweet>>() {
             @Override
             public void success(Result<List<Tweet>> result) {
-                final FixedTweetTimeline userTimeline = new FixedTweetTimeline.Builder()
-                        .setTweets(result.data)
-                        .build();
                 tweetAdapter.setItems(result.data);
             }
             @Override

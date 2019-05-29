@@ -87,10 +87,10 @@
 
             <ImageView
                 android:id="@+id/like_image_view"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginEnd="@dimen/text_small_margin"
-                android:src="@drawable/not_liked"/>
+                android:src="@drawable/not_like"/>
 
             <TextView
                 android:id="@+id/likes_text_view"

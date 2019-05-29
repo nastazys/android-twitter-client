@@ -2,13 +2,13 @@ package com.example.twitty.pojo;
 import com.twitter.sdk.android.core.models.User;
 
 public class SimpleUser {
-    private long id;
-    private String name;
-    private String nick;
-    private String imageUrl;
-    private String description;
-    private Integer followersNum;
-    private Integer followingNum;
+    private long id = 458472903;
+    private String name = "Nastassia";
+    private String nick = "nastazys";
+    private String imageUrl = "https://pbs.twimg.com/profile_images/900378926626873344/TVnwWtvw_400x400.jpg";
+    private String description = "descriptionnn";
+    private Integer followersNum = 888;
+    private Integer followingNum = 88;
 
     public SimpleUser(long id, String name, String nick, String imageUrl, String description, Integer followersNum, Integer followingNum) {
         this.id = id;
@@ -23,7 +23,7 @@ public class SimpleUser {
     public SimpleUser(User twitterUser){
         this.id = twitterUser.id;
         this.name = twitterUser.name;
-        //this.nick = nick;
+        this.nick = twitterUser.screenName;
         this.imageUrl = twitterUser.profileImageUrl;
         this.description = twitterUser.description;
         this.followersNum = twitterUser.followersCount;

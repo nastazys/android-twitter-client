@@ -8,9 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import android.os.UserHandle;
-import android.os.UserManager;
-import android.service.autofill.UserData;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,15 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.twitty.R;
+import com.example.twitty.activity.UserInfoActivity;
 import com.squareup.picasso.Picasso;
-import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.internal.UserUtils;
 import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.core.models.User;
-import com.twitter.sdk.android.core.models.UserBuilder;
-import com.twitter.sdk.android.core.models.UserEntities;
-import com.twitter.sdk.android.core.models.UserValue;
-import com.twitter.sdk.android.tweetui.TweetUtils;
 import com.twitter.sdk.android.tweetui.internal.TweetMediaUtils;
 
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.TweetViewHolder> {
@@ -35,6 +29,11 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.TweetViewHol
     private static final String MONTH_DAY_FORMAT = "MMM d"; // Oct 26
 
     private List<Tweet> tweetList = new ArrayList<>();
+    private Context context;
+
+    public TweetAdapter(Context c) {
+        context = c;
+    }
 
     @Override
     public TweetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -103,10 +102,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.TweetViewHol
             Picasso.get().load(UserUtils.getProfileImageUrlHttps(tweet.user,
                     UserUtils.AvatarSize.REASONABLY_SMALL)).into(userImageView);
 
-            if(tweet.favorited){
-                isLiked.setImageResource(R.drawable.is_liked);
+            if (tweet.favorited) {
+                isLiked.setImageResource(R.drawable.like);
             }
-            if(tweet.retweeted){
+            if (tweet.retweeted) {
                 isLiked.setImageResource(R.drawable.retweet);
             }
             if (TweetMediaUtils.hasPhoto(tweet)) {
@@ -115,6 +114,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.TweetViewHol
             } else {
                 tweetImageView.setVisibility(View.GONE);
             }
+
+            linkifyProfile(tweet);
         }
 
         private String getFormattedDate(String rawDate) {
@@ -125,6 +126,22 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.TweetViewHol
                 return displayedFormat.format(date);
             } catch (ParseException e) {
                 throw new RuntimeException(e);
+            }
+        }
+
+        void linkifyProfile(final Tweet displayTweet) {
+            if (displayTweet != null && displayTweet.user != null) {
+                userImageView.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, UserInfoActivity.class);
+                    intent.putExtra("userId", displayTweet.user.id);
+                    context.startActivity(intent);
+                });
+
+                nameTextView.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, UserInfoActivity.class);
+                    intent.putExtra("userId", displayTweet.user.id);
+                    context.startActivity(intent);
+                });
             }
         }
     }

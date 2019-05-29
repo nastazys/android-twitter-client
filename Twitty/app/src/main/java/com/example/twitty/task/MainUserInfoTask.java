@@ -35,7 +35,7 @@ public class MainUserInfoTask extends AsyncTask<TwitterSession, Integer, SimpleU
         userResult.enqueue(new Callback<User>() {
             @Override
             public void success(Result<User> result) {
-                user = new SimpleUser (result.data);
+                //user = new SimpleUser (result.data);
             }
 
             @Override
