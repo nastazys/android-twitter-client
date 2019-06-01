@@ -1,19 +1,9 @@
 package com.example.twitty.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.twitty.adapter.TweetAdapter;
-import com.example.twitty.tweetcomposer.ComposerActivity;
 import com.squareup.picasso.Picasso;
 
 import com.example.twitty.R;
@@ -21,7 +11,6 @@ import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.internal.UserUtils;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.core.models.User;
@@ -31,27 +20,22 @@ import java.util.List;
 
 import retrofit2.Call;
 
-public class UserInfoActivity extends AppCompatActivity {
+public class UserInfoActivity extends TweetTimelineActivity {
 
     private Long userId;
-    // private ImageView userBackView;
+
     private ImageView userImageView;
     private TextView nameTextView;
     private TextView nickTextView;
     private TextView descriptionTextView;
     private TextView followingCountTextView;
     private TextView followersCountTextView;
-    private Toolbar toolbar;
-
-    private RecyclerView tweetsRecyclerView;
-    private TweetAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
-
         userId = getIntent().getExtras().getLong("userId");
+        super.onCreate(savedInstanceState);
 
         userImageView = findViewById(R.id.user_image_view);
         nameTextView = findViewById(R.id.user_name_text_view);
@@ -60,53 +44,17 @@ public class UserInfoActivity extends AppCompatActivity {
         followingCountTextView = findViewById(R.id.following_count_text_view);
         followersCountTextView = findViewById(R.id.followers_count_text_view);
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        adapter = new TweetAdapter(UserInfoActivity.this);
-
-        getTweets();
-        displayTweets();
+        loadTweets();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.info_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_home) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
-
-        if (item.getItemId() == R.id.action_search) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
-
-        if (item.getItemId() == R.id.action_add_tweet) {
-            final TwitterSession session = TwitterCore.getInstance().getSessionManager()
-                    .getActiveSession();
-            final Intent intent = new ComposerActivity.Builder(UserInfoActivity.this)
-                    .session(session)
-                    .darkTheme()
-                    .createIntent();
-            startActivity(intent);
-        }
-        return true;
-    }
-
-    private void getTweets() {
+    void loadTweets() {
         final StatusesService statusesService = TwitterCore.getInstance().getApiClient().getStatusesService();
         Call<List<Tweet>> list = statusesService
                 .userTimeline(userId, null, 800, null, null, false, false, false, null);
         list.enqueue(new Callback<List<Tweet>>() {
             @Override
             public void success(Result<List<Tweet>> result) {
-                adapter.setItems(result.data);
+                tweetAdapter.setItems(result.data);
                 displayUserInfo(result.data.get(0).user);
             }
 
@@ -116,22 +64,12 @@ public class UserInfoActivity extends AppCompatActivity {
         });
     }
 
-    private void displayTweets() {
-        tweetsRecyclerView = findViewById(R.id.tweets_recycler_view);
-        tweetsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        tweetsRecyclerView.setAdapter(adapter);
-    }
-
     private void displayUserInfo(User user) {
         Picasso.get().load(UserUtils.getProfileImageUrlHttps(user,
                 UserUtils.AvatarSize.BIGGER)).into(userImageView);
         nameTextView.setText(user.name);
         nickTextView.setText(user.screenName);
-        if(user.description == "") {
-            descriptionTextView.setVisibility(View.GONE);
-        } else {
-            descriptionTextView.setText(user.description);
-        }
+        descriptionTextView.setText(user.description);
 
         String followingCount = String.valueOf(user.friendsCount);
         followingCountTextView.setText(followingCount);
