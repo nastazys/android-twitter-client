@@ -9,13 +9,6 @@
         android:id="@+id/toolbar"
         style="@style/Toolbar" />
 
-    <View
-        android:id="@+id/delimeter_view"
-        android:layout_width="match_parent"
-        android:layout_height="6dp"
-        android:layout_marginTop="@dimen/text_small_margin"
-        android:background="@color/gray_mercury"/>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tweets_recycler_view"
         android:layout_width="match_parent"

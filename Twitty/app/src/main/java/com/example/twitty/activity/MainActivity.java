@@ -75,11 +75,8 @@ public class MainActivity extends AppCompatActivity {
             final Intent intent = new ComposerActivity.Builder(MainActivity.this)
                     .session(session)
                     .darkTheme()
-                    .hashtags("#twitter")
                     .createIntent();
             startActivity(intent);
-            //Intent intent = new Intent(this, MainActivity.class);
-            //startActivity(intent);
         }
 
         return true;

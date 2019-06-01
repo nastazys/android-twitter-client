@@ -9,6 +9,7 @@
         android:id="@+id/profile_image_view"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginTop="@dimen/text_middle_margin"
         android:layout_marginEnd="@dimen/text_small_margin"
         android:src="@mipmap/ic_launcher"/>
 
@@ -16,14 +17,14 @@
         android:id="@+id/author_name_text_view"
         style="@style/TextView.Primary.Bold"
         android:layout_toEndOf="@id/profile_image_view"
-        android:text="Nastassia"/>
+        android:text="Name"/>
 
     <TextView
         android:id="@+id/author_nick_text_view"
         style="@style/TextView.Secondary"
         android:layout_marginStart="@dimen/text_small_margin"
         android:layout_toEndOf="@+id/author_name_text_view"
-        android:text="nastazys"/>
+        android:text="login"/>
 
     <TextView
         android:id="@+id/creation_date_text_view"

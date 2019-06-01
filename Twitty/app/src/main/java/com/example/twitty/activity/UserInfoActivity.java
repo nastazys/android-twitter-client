@@ -8,11 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.twitty.adapter.TweetAdapter;
-import com.example.twitty.pojo.SimpleUser;
+import com.example.twitty.tweetcomposer.ComposerActivity;
 import com.squareup.picasso.Picasso;
 
 import com.example.twitty.R;
@@ -20,7 +21,10 @@ import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.internal.UserUtils;
 import com.twitter.sdk.android.core.models.Tweet;
+import com.twitter.sdk.android.core.models.User;
 import com.twitter.sdk.android.core.services.StatusesService;
 
 import java.util.List;
@@ -82,6 +86,16 @@ public class UserInfoActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
+
+        if (item.getItemId() == R.id.action_add_tweet) {
+            final TwitterSession session = TwitterCore.getInstance().getSessionManager()
+                    .getActiveSession();
+            final Intent intent = new ComposerActivity.Builder(UserInfoActivity.this)
+                    .session(session)
+                    .darkTheme()
+                    .createIntent();
+            startActivity(intent);
+        }
         return true;
     }
 
@@ -93,7 +107,7 @@ public class UserInfoActivity extends AppCompatActivity {
             @Override
             public void success(Result<List<Tweet>> result) {
                 adapter.setItems(result.data);
-                displayUserInfo(new SimpleUser(result.data.get(0).user));
+                displayUserInfo(result.data.get(0).user);
             }
 
             @Override
@@ -108,19 +122,24 @@ public class UserInfoActivity extends AppCompatActivity {
         tweetsRecyclerView.setAdapter(adapter);
     }
 
-    private void displayUserInfo(SimpleUser user) {
-        Picasso.get().load(user.getImageUrl()).into(userImageView);
-        nameTextView.setText(user.getName());
-        nickTextView.setText(user.getNick());
-        descriptionTextView.setText(user.getDescription());
+    private void displayUserInfo(User user) {
+        Picasso.get().load(UserUtils.getProfileImageUrlHttps(user,
+                UserUtils.AvatarSize.BIGGER)).into(userImageView);
+        nameTextView.setText(user.name);
+        nickTextView.setText(user.screenName);
+        if(user.description == "") {
+            descriptionTextView.setVisibility(View.GONE);
+        } else {
+            descriptionTextView.setText(user.description);
+        }
 
-        String followingCount = String.valueOf(user.getFollowingNum());
+        String followingCount = String.valueOf(user.friendsCount);
         followingCountTextView.setText(followingCount);
 
-        String followersCount = String.valueOf(user.getFollowersNum());
+        String followersCount = String.valueOf(user.followersCount);
         followersCountTextView.setText(followersCount);
 
-        getSupportActionBar().setTitle(user.getName());
+        getSupportActionBar().setTitle(user.name);
     }
 
 }

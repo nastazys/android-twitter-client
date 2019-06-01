@@ -15,38 +15,35 @@
         android:layout_height="wrap_content"
         android:padding="8dp">
 
-        <!-- <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/background" />  -->
-
         <ImageView
             android:id="@+id/user_image_view"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="@dimen/text_small_margin"
+            android:layout_marginLeft="@dimen/text_small_margin"
             android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/user_name_text_view"
             style="@style/TextView.Primary.Header"
-            android:layout_below="@id/user_image_view"
-            android:layout_marginTop="@dimen/text_small_margin"
+            android:layout_toEndOf="@+id/user_image_view"
+            android:layout_marginLeft="@dimen/text_middle_margin"
             android:text="Имя" />
 
         <TextView
             android:id="@+id/user_nick_text_view"
             style="@style/TextView.Secondary"
+            android:layout_toEndOf="@+id/user_image_view"
             android:layout_below="@id/user_name_text_view"
-            android:layout_marginTop="@dimen/text_small_margin"
+            android:layout_marginLeft="@dimen/text_middle_margin"
             android:text="Ник" />
 
         <TextView
             android:id="@+id/user_description_text_view"
             style="@style/TextView.Primary"
+            android:layout_toEndOf="@+id/user_image_view"
             android:layout_below="@id/user_nick_text_view"
-            android:layout_marginTop="@dimen/text_small_margin"
+            android:layout_marginLeft="@dimen/text_middle_margin"
             android:text="Описание" />
 
         <TextView
