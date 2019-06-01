@@ -11,4 +11,8 @@
     <string name="fa_map_marker">\uf041</string>
     <string name="fa_heart_o">\uf08a</string>
     <string name="fa_retweet">\uf079</string>
+
+        <string name="tw__composer_hint">What\'s Happening?</string>
+        <string name="tw__post_tweet">Tweet</string>
+        <string name="tw__max_tweet_chars">140</string>
 </resources>

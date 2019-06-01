@@ -1,45 +1,37 @@
 package com.example.twitty.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.twitty.R;
 import com.example.twitty.adapter.TweetAdapter;
+import com.example.twitty.tweetcomposer.ComposerActivity;
 import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterAuthToken;
-import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.TwitterSession;
-import com.twitter.sdk.android.core.TwitterApiClient;
-import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
+import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.core.models.User;
 import com.twitter.sdk.android.core.services.StatusesService;
-import com.twitter.sdk.android.tweetui.FixedTweetTimeline;
-import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 
 import java.util.List;
 
 import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity {
-    //private Toolbar toolbar;
     private RecyclerView tweetsRecyclerView;
     private TweetAdapter tweetAdapter;
+
+    SwipeRefreshLayout swipeHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +68,20 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
+
+        if (item.getItemId() == R.id.action_add_tweet) {
+            final TwitterSession session = TwitterCore.getInstance().getSessionManager()
+                    .getActiveSession();
+            final Intent intent = new ComposerActivity.Builder(MainActivity.this)
+                    .session(session)
+                    .darkTheme()
+                    .hashtags("#twitter")
+                    .createIntent();
+            startActivity(intent);
+            //Intent intent = new Intent(this, MainActivity.class);
+            //startActivity(intent);
+        }
+
         return true;
     }
 

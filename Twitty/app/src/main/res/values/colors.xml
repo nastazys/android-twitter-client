@@ -10,4 +10,12 @@
     <color name="white">#ffffff</color>
     <color name="gray_dove_light">#666666</color>
     <color name="gray_mercury">#E1E1E1</color>
+
+    <color name="tw__composer_blue">#ff1da1f2</color>
+    <color name="tw__composer_blue_text">#ff1b95e0</color>
+    <color name="tw__composer_white">#ffffffff</color>
+    <color name="tw__composer_black">#ff292f33</color>
+    <color name="tw__composer_deep_gray">#ff8899A6</color>
+    <color name="tw__composer_light_gray">#ffccd6dd</color>
+    <color name="tw__composer_red">#ffe81c4f</color>
 </resources>

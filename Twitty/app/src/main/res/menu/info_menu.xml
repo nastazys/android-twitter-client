@@ -15,4 +15,11 @@
         app:showAsAction="always"
         android:icon="@drawable/baseline_search_black_18dp"/>
         <!--android:title="@string/search_hint"/>-->
+
+    <item
+        android:id="@+id/action_add_tweet"
+        android:title="Add tweet"
+        app:showAsAction="always"
+        android:icon="@drawable/baseline_add_circle_black_18dp"/>
+
 </menu>

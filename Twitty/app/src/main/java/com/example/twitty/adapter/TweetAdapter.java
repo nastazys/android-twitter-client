@@ -10,6 +10,7 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -104,9 +105,13 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.TweetViewHol
 
             if (tweet.favorited) {
                 isLiked.setImageResource(R.drawable.like);
+            } else {
+                isLiked.setImageResource(R.drawable.not_like);
             }
             if (tweet.retweeted) {
-                isLiked.setImageResource(R.drawable.retweet);
+                isRetweeted.setImageResource(R.drawable.retweet);
+            }else {
+                isRetweeted.setImageResource(R.drawable.not_retweet);
             }
             if (TweetMediaUtils.hasPhoto(tweet)) {
                 String tweetPhotoUrl = TweetMediaUtils.getPhotoEntity(tweet).mediaUrl;
@@ -138,6 +143,22 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.TweetViewHol
                 });
 
                 nameTextView.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, UserInfoActivity.class);
+                    intent.putExtra("userId", displayTweet.user.id);
+                    context.startActivity(intent);
+                });
+            }
+        }
+
+        void setLikeAction(final Tweet displayTweet) {
+            if (displayTweet != null && displayTweet.user != null) {
+                isLiked.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, UserInfoActivity.class);
+                    intent.putExtra("userId", displayTweet.user.id);
+                    context.startActivity(intent);
+                });
+
+                isRetweeted.setOnClickListener(v -> {
                     Intent intent = new Intent(context, UserInfoActivity.class);
                     intent.putExtra("userId", displayTweet.user.id);
                     context.startActivity(intent);
