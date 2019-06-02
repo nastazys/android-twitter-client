@@ -23,6 +23,7 @@ import com.example.twitty.activity.UserInfoActivity;
 import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.core.internal.UserUtils;
 import com.twitter.sdk.android.core.models.Tweet;
+import com.twitter.sdk.android.core.models.User;
 import com.twitter.sdk.android.tweetui.internal.TweetMediaUtils;
 
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.TweetViewHolder> {
@@ -56,6 +57,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.TweetViewHol
     public void setItems(Collection<Tweet> tweets) {
         tweetList.addAll(tweets);
         notifyDataSetChanged();
+    }
+
+    public User getUser() {
+        return tweetList.get(0).user;
     }
 
     public void clearItems() {

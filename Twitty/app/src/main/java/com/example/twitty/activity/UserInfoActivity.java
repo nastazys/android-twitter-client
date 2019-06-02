@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.twitty.task.UserInfoTask;
 import com.squareup.picasso.Picasso;
 
 import com.example.twitty.R;
@@ -46,24 +47,7 @@ public class UserInfoActivity extends StandardTimelineActivity {
         super.onCreate(savedInstanceState);
     }
 
-    void loadTweets() {
-        final StatusesService statusesService = TwitterCore.getInstance().getApiClient().getStatusesService();
-        Call<List<Tweet>> list = statusesService
-                .userTimeline(userId, null, 800, null, null, false, false, false, null);
-        list.enqueue(new Callback<List<Tweet>>() {
-            @Override
-            public void success(Result<List<Tweet>> result) {
-                tweetAdapter.setItems(result.data);
-                displayUserInfo(result.data.get(0).user);
-            }
-
-            @Override
-            public void failure(TwitterException exception) {
-            }
-        });
-    }
-
-    private void displayUserInfo(User user) {
+    public void displayUserInfo(User user) {
         Picasso.get().load(UserUtils.getProfileImageUrlHttps(user,
                 UserUtils.AvatarSize.BIGGER)).into(userImageView);
         nameTextView.setText(user.name);
@@ -77,6 +61,11 @@ public class UserInfoActivity extends StandardTimelineActivity {
         followersCountTextView.setText(followersCount);
 
         getSupportActionBar().setTitle(user.name);
+    }
+
+    @Override
+    void initTask(){
+        task = new UserInfoTask(tweetAdapter, userId, this);
     }
 
 }

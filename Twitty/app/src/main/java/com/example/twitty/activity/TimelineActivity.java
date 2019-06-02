@@ -1,5 +1,6 @@
 package com.example.twitty.activity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import com.twitter.sdk.android.core.Twitter;
 abstract class TimelineActivity extends AppCompatActivity {
     protected RecyclerView tweetsRecyclerView;
     protected TweetAdapter tweetAdapter;
+    protected AsyncTask<Void, Void, Void> task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +27,18 @@ abstract class TimelineActivity extends AppCompatActivity {
         tweetsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tweetAdapter = new TweetAdapter(TimelineActivity.this);
         tweetsRecyclerView.setAdapter(tweetAdapter);
+
+        initTask();
     }
 
-    void initToolbar(){
+    void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 
-    abstract void loadTweets();
+    abstract void initTask();
+
+    void loadTweets() {
+        task.execute();
+    }
 }
