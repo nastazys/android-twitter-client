@@ -15,36 +15,34 @@
             android:padding="8dp">
 
             <EditText
-                android:id="@+id/query_edit_text"
+                android:id="@+id/request_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@+id/search_button"
+                android:layout_toStartOf="@+id/search_icon"
                 android:background="@null"
                 android:maxLines="1"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:hint="@string/search_query_hint"/>
 
-            <Button
-                android:id="@+id/search_button"
+            <ImageView
+                android:id="@+id/search_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                android:padding="10dp"
+                android:padding="7dp"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/transparent_gfx"
-                android:textColor="@color/white"
-                android:textSize="23sp"/>
+                android:src="@drawable/baseline_search_black_18dp"/>
 
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/users_recycler_view"
+        android:id="@+id/tweets_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

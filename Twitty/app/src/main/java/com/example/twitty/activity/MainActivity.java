@@ -15,7 +15,7 @@ import java.util.List;
 
 import retrofit2.Call;
 
-public class MainActivity extends TweetTimelineActivity {
+public class MainActivity extends StandardTimelineActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);

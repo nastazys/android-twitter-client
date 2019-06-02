@@ -20,7 +20,7 @@ import java.util.List;
 
 import retrofit2.Call;
 
-public class UserInfoActivity extends TweetTimelineActivity {
+public class UserInfoActivity extends StandardTimelineActivity {
 
     private Long userId;
 
@@ -35,7 +35,6 @@ public class UserInfoActivity extends TweetTimelineActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_user_info);
         userId = getIntent().getExtras().getLong("userId");
-        super.onCreate(savedInstanceState);
 
         userImageView = findViewById(R.id.user_image_view);
         nameTextView = findViewById(R.id.user_name_text_view);
@@ -44,7 +43,7 @@ public class UserInfoActivity extends TweetTimelineActivity {
         followingCountTextView = findViewById(R.id.following_count_text_view);
         followersCountTextView = findViewById(R.id.followers_count_text_view);
 
-        loadTweets();
+        super.onCreate(savedInstanceState);
     }
 
     void loadTweets() {

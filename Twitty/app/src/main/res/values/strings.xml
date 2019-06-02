@@ -12,7 +12,7 @@
     <string name="fa_heart_o">\uf08a</string>
     <string name="fa_retweet">\uf079</string>
 
-    <string name="search_query_hint">Enter user name</string>
+    <string name="search_query_hint">Enter search request</string>
     <string name="search_hint">search</string>
 
         <string name="tw__composer_hint">What\'s Happening?</string>

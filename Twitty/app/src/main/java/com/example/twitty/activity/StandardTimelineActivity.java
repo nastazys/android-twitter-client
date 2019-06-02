@@ -1,39 +1,20 @@
 package com.example.twitty.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.twitty.R;
-import com.example.twitty.adapter.TweetAdapter;
 import com.example.twitty.tweetcomposer.ComposerActivity;
-import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterCore;
 
 import com.twitter.sdk.android.core.TwitterSession;
 
-abstract class TweetTimelineActivity extends AppCompatActivity {
-    protected RecyclerView tweetsRecyclerView;
-    protected TweetAdapter tweetAdapter;
-
+abstract class StandardTimelineActivity extends TimelineActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Twitter.initialize(this);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        tweetsRecyclerView = findViewById(R.id.tweets_recycler_view);
-        tweetsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        tweetAdapter = new TweetAdapter(TweetTimelineActivity.this);
-        tweetsRecyclerView.setAdapter(tweetAdapter);
-
         loadTweets();
     }
 
@@ -51,14 +32,14 @@ abstract class TweetTimelineActivity extends AppCompatActivity {
         }
 
         if (item.getItemId() == R.id.action_search) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, SearchActivity.class);
             startActivity(intent);
         }
 
         if (item.getItemId() == R.id.action_add_tweet) {
             final TwitterSession session = TwitterCore.getInstance().getSessionManager()
                     .getActiveSession();
-            final Intent intent = new ComposerActivity.Builder(TweetTimelineActivity.this)
+            final Intent intent = new ComposerActivity.Builder(StandardTimelineActivity.this)
                     .session(session)
                     .darkTheme()
                     .createIntent();
@@ -67,6 +48,4 @@ abstract class TweetTimelineActivity extends AppCompatActivity {
 
         return true;
     }
-
-    abstract void loadTweets();
 }
