@@ -1,8 +1,5 @@
 package com.example.twitty.task;
 
-import android.app.Activity;
-import android.content.Context;
-
 import com.example.twitty.activity.UserInfoActivity;
 import com.example.twitty.adapter.TweetAdapter;
 import com.twitter.sdk.android.core.Callback;
@@ -21,6 +18,7 @@ public class UserInfoTask extends TimelineTask {
     private Long userId;
     private User user;
     private UserInfoActivity context;
+
     public UserInfoTask(TweetAdapter adapter, Long userId, UserInfoActivity activity) {
         super(adapter);
         this.userId = userId;

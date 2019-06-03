@@ -10,7 +10,7 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +21,21 @@ import android.widget.TextView;
 import com.example.twitty.R;
 import com.example.twitty.activity.UserInfoActivity;
 import com.squareup.picasso.Picasso;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthException;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.internal.UserUtils;
+import com.twitter.sdk.android.core.models.Search;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.core.models.User;
+import com.twitter.sdk.android.core.services.FavoriteService;
 import com.twitter.sdk.android.tweetui.internal.TweetMediaUtils;
+
+import retrofit2.Call;
 
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.TweetViewHolder> {
     private static final String TWITTER_RESPONSE_FORMAT = "EEE MMM dd HH:mm:ss ZZZZZ yyyy"; // Thu Oct 26 07:31:08 +0000 2017
@@ -126,6 +137,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.TweetViewHol
             }
 
             linkifyProfile(tweet);
+            setLikeAction(tweet);
         }
 
         private String getFormattedDate(String rawDate) {
@@ -158,17 +170,55 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.TweetViewHol
         void setLikeAction(final Tweet displayTweet) {
             if (displayTweet != null && displayTweet.user != null) {
                 isLiked.setOnClickListener(v -> {
-                    Intent intent = new Intent(context, UserInfoActivity.class);
-                    intent.putExtra("userId", displayTweet.user.id);
-                    context.startActivity(intent);
+                    if (displayTweet.favorited) {
+                        unfavorite(displayTweet);
+                        //isLiked.setImageResource(R.drawable.not_like);
+                    } else {
+                        favorite(displayTweet);
+                        //isLiked.setImageResource(R.drawable.like);
+                    }
                 });
 
-                isRetweeted.setOnClickListener(v -> {
+                /*isRetweeted.setOnClickListener(v -> {
                     Intent intent = new Intent(context, UserInfoActivity.class);
                     intent.putExtra("userId", displayTweet.user.id);
                     context.startActivity(intent);
-                });
+                });*/
             }
+        }
+
+        void favorite(Tweet tweet) {
+            final TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+            FavoriteService favoriteService = TwitterCore.getInstance().getApiClient(session).getFavoriteService();
+            Call<Tweet> tweetCall = favoriteService.create
+                    (tweet.id, false);
+            tweetCall.enqueue(new Callback<Tweet>() {
+                @Override
+                public void success(Result<Tweet> result) {
+                    bind(result.data);
+                }
+
+                @Override
+                public void failure(TwitterException exception) {
+                }
+            });
+        }
+
+        void unfavorite(Tweet tweet) {
+            final TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+            FavoriteService favoriteService = TwitterCore.getInstance().getApiClient(session).getFavoriteService();
+            Call<Tweet> tweetCall = favoriteService.destroy
+                    (tweet.id, false);
+            tweetCall.enqueue(new Callback<Tweet>() {
+                @Override
+                public void success(Result<Tweet> result) {
+                    bind(result.data);
+                }
+
+                @Override
+                public void failure(TwitterException exception) {
+                }
+            });
         }
     }
 }
