@@ -10,7 +10,6 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,16 +22,14 @@ import com.example.twitty.activity.UserInfoActivity;
 import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthException;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.internal.UserUtils;
-import com.twitter.sdk.android.core.models.Search;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.core.models.User;
 import com.twitter.sdk.android.core.services.FavoriteService;
+import com.twitter.sdk.android.core.services.StatusesService;
 import com.twitter.sdk.android.tweetui.internal.TweetMediaUtils;
 
 import retrofit2.Call;
@@ -172,18 +169,18 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.TweetViewHol
                 isLiked.setOnClickListener(v -> {
                     if (displayTweet.favorited) {
                         unfavorite(displayTweet);
-                        //isLiked.setImageResource(R.drawable.not_like);
                     } else {
                         favorite(displayTweet);
-                        //isLiked.setImageResource(R.drawable.like);
                     }
                 });
 
-                /*isRetweeted.setOnClickListener(v -> {
-                    Intent intent = new Intent(context, UserInfoActivity.class);
-                    intent.putExtra("userId", displayTweet.user.id);
-                    context.startActivity(intent);
-                });*/
+                isRetweeted.setOnClickListener(v -> {
+                        if (displayTweet.retweeted) {
+                            unretweet(displayTweet);
+                        } else {
+                            retweet(displayTweet);
+                        }
+                });
             }
         }
 
@@ -208,6 +205,40 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.TweetViewHol
             final TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
             FavoriteService favoriteService = TwitterCore.getInstance().getApiClient(session).getFavoriteService();
             Call<Tweet> tweetCall = favoriteService.destroy
+                    (tweet.id, false);
+            tweetCall.enqueue(new Callback<Tweet>() {
+                @Override
+                public void success(Result<Tweet> result) {
+                    bind(result.data);
+                }
+
+                @Override
+                public void failure(TwitterException exception) {
+                }
+            });
+        }
+
+        void retweet(Tweet tweet) {
+            final TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+            StatusesService statusesService = TwitterCore.getInstance().getApiClient(session).getStatusesService();
+            Call<Tweet> tweetCall = statusesService.retweet
+                    (tweet.id, false);
+            tweetCall.enqueue(new Callback<Tweet>() {
+                @Override
+                public void success(Result<Tweet> result) {
+                    bind(result.data);
+                }
+
+                @Override
+                public void failure(TwitterException exception) {
+                }
+            });
+        }
+
+        void unretweet(Tweet tweet) {
+            final TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+            StatusesService statusesService = TwitterCore.getInstance().getApiClient(session).getStatusesService();
+            Call<Tweet> tweetCall = statusesService.unretweet
                     (tweet.id, false);
             tweetCall.enqueue(new Callback<Tweet>() {
                 @Override
