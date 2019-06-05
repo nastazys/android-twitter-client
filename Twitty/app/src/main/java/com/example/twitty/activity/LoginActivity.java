@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void failure(TwitterException exception) {
-                    Toast.makeText(LoginActivity.this, "Ошибка авторизации!", Toast.LENGTH_LONG);
+                    Toast.makeText(LoginActivity.this, "Ошибка авторизации!", Toast.LENGTH_LONG).show();
                 }
             });
         } else {

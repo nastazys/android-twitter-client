@@ -45,7 +45,6 @@ abstract class StandardTimelineActivity extends TimelineActivity {
                     .createIntent();
             startActivity(intent);
         }
-
         return true;
     }
 }

@@ -45,6 +45,4 @@ public class SearchActivity extends TimelineActivity {
     void initTask() {
         task = new SearchTask(tweetAdapter, searchText);
     }
-
-
 }
