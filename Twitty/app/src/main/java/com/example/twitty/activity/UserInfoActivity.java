@@ -1,6 +1,10 @@
 package com.example.twitty.activity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.method.KeyListener;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,7 +56,11 @@ public class UserInfoActivity extends StandardTimelineActivity {
                 UserUtils.AvatarSize.BIGGER)).into(userImageView);
         nameTextView.setText(user.name);
         nickTextView.setText(user.screenName);
-        descriptionTextView.setText(user.description);
+        if (user.description != null) {
+            descriptionTextView.setText(user.description);
+        } else {
+            descriptionTextView.setText(R.string.dummy);
+        }
 
         String followingCount = String.valueOf(user.friendsCount);
         followingCountTextView.setText(followingCount);

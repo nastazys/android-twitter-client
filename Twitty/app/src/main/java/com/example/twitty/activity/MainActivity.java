@@ -6,6 +6,7 @@ import com.example.twitty.R;
 import com.example.twitty.task.TimelineTask;
 
 public class MainActivity extends StandardTimelineActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
@@ -15,6 +16,6 @@ public class MainActivity extends StandardTimelineActivity {
 
     @Override
     void initTask(){
-        task = new TimelineTask(tweetAdapter);
+        task = new TimelineTask(tweetAdapter, MainActivity.this);
     }
 }

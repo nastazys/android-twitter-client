@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.twitty.R;
 import com.twitter.sdk.android.core.Callback;
@@ -65,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void failure(TwitterException exception) {
+                    Toast.makeText(LoginActivity.this, "Ошибка авторизации!", Toast.LENGTH_LONG);
                 }
             });
         } else {

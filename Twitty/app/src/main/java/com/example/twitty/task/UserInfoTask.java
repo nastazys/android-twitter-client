@@ -1,5 +1,7 @@
 package com.example.twitty.task;
 
+import android.widget.Toast;
+
 import com.example.twitty.activity.UserInfoActivity;
 import com.example.twitty.adapter.TweetAdapter;
 import com.twitter.sdk.android.core.Callback;
@@ -23,7 +25,6 @@ public class UserInfoTask extends TimelineTask {
         super(adapter);
         this.userId = userId;
         context = activity;
-        //this.user = user;
     }
 
     @Override
@@ -40,6 +41,7 @@ public class UserInfoTask extends TimelineTask {
 
             @Override
             public void failure(TwitterException exception) {
+                Toast.makeText(context, "Отсутствует соединение!", Toast.LENGTH_LONG).show();
             }
         });
         return null;

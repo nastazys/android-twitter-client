@@ -27,7 +27,7 @@ public class SearchTask extends TimelineTask {
         String request = searchText.getText().toString();
         final SearchService searchService = TwitterCore.getInstance().getApiClient().getSearchService();
         Call<Search> list = searchService.tweets
-                (request, null, null, null, null, 800, null, null, null, false);
+                (request, null, null, null, null, 10000, null, null, null, false);
         list.enqueue(new Callback<Search>() {
             @Override
             public void success(Result<Search> result) {

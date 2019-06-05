@@ -27,36 +27,32 @@
             android:id="@+id/user_name_text_view"
             style="@style/TextView.Primary.Header"
             android:layout_toEndOf="@+id/user_image_view"
-            android:layout_marginLeft="@dimen/text_middle_margin"
-            android:text="Имя" />
+            android:layout_marginLeft="@dimen/text_middle_margin"/>
 
         <TextView
             android:id="@+id/user_nick_text_view"
             style="@style/TextView.Secondary"
             android:layout_toEndOf="@+id/user_image_view"
             android:layout_below="@id/user_name_text_view"
-            android:layout_marginLeft="@dimen/text_middle_margin"
-            android:text="Ник" />
+            android:layout_marginLeft="@dimen/text_middle_margin"/>
 
         <TextView
             android:id="@+id/user_description_text_view"
             style="@style/TextView.Primary"
             android:layout_toEndOf="@+id/user_image_view"
             android:layout_below="@id/user_nick_text_view"
-            android:layout_marginLeft="@dimen/text_middle_margin"
-            android:text="Описание" />
+            android:layout_marginLeft="@dimen/text_middle_margin"/>
 
         <TextView
             android:id="@+id/following_count_text_view"
             style="@style/TextView.Primary.Bold"
-            android:layout_below="@id/user_description_text_view"
-            android:layout_marginTop="@dimen/text_small_margin"
-            android:text="4" />
+            android:layout_below="@id/user_image_view"
+            android:layout_marginTop="@dimen/text_small_margin"/>
 
         <TextView
             android:id="@+id/following_text_view"
             style="@style/TextView.Secondary"
-            android:layout_below="@id/user_description_text_view"
+            android:layout_below="@id/user_image_view"
             android:layout_marginStart="5dp"
             android:layout_marginTop="@dimen/text_small_margin"
             android:layout_toEndOf="@+id/following_count_text_view"
@@ -65,16 +61,15 @@
         <TextView
             android:id="@+id/followers_count_text_view"
             style="@style/TextView.Primary.Bold"
-            android:layout_below="@id/user_description_text_view"
+            android:layout_below="@id/user_image_view"
             android:layout_marginStart="20dp"
             android:layout_marginTop="@dimen/text_small_margin"
-            android:layout_toEndOf="@+id/following_text_view"
-            android:text="4" />
+            android:layout_toEndOf="@+id/following_text_view"/>
 
         <TextView
             android:id="@+id/followers_text_view"
             style="@style/TextView.Secondary"
-            android:layout_below="@id/user_description_text_view"
+            android:layout_below="@id/user_image_view"
             android:layout_marginStart="10dp"
             android:layout_marginTop="@dimen/text_small_margin"
             android:layout_toEndOf="@+id/followers_count_text_view"

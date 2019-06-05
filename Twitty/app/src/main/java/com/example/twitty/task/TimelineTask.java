@@ -1,8 +1,13 @@
 package com.example.twitty.task;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.twitty.activity.MainActivity;
 import com.example.twitty.adapter.TweetAdapter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -17,6 +22,12 @@ import retrofit2.Call;
 
 public class TimelineTask extends AsyncTask<Void, Void, Void> {
     TweetAdapter tweetAdapter;
+    private MainActivity context;
+
+    public TimelineTask(TweetAdapter adapter, MainActivity context) {
+        tweetAdapter = adapter;
+        this.context = context;
+    }
 
     public TimelineTask(TweetAdapter adapter) {
         tweetAdapter = adapter;
@@ -32,9 +43,10 @@ public class TimelineTask extends AsyncTask<Void, Void, Void> {
             public void success(Result<List<Tweet>> result) {
                 tweetAdapter.setItems(result.data);
             }
+
             @Override
             public void failure(TwitterException exception) {
-                Log.d("error", "failed to get tweets");
+                Toast.makeText(context, "Отсутствует соединение!", Toast.LENGTH_LONG).show();
             }
         });
         return null;

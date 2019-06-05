@@ -3,6 +3,7 @@
     <string name="following_hint">Following</string>
 
     <string name="app_name">Twitty</string>
+    <string name="start_message">Welcome to Twitty!</string>
     <string name="failed_to_authorize_message">Failed to authorize :(</string>
     <string name="authorize_message">:)</string>
     <string name="com.twitter.sdk.android.CONSUMER_KEY">Ccr0TU06HVKHmYkjvi4nwsXhE</string>
@@ -11,6 +12,7 @@
     <string name="fa_map_marker">\uf041</string>
     <string name="fa_heart_o">\uf08a</string>
     <string name="fa_retweet">\uf079</string>
+    <string name="dummy">\n\r</string>
 
     <string name="search_query_hint">Enter search request</string>
     <string name="search_hint">search</string>
