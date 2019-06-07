@@ -11,7 +11,7 @@ import com.example.twitty.R;
 import com.example.twitty.adapter.TweetAdapter;
 import com.twitter.sdk.android.core.Twitter;
 
-abstract class TimelineActivity extends AppCompatActivity {
+abstract class TimelineActivity extends AppCompatActivity{
     protected RecyclerView tweetsRecyclerView;
     protected TweetAdapter tweetAdapter;
     protected AsyncTask<Void, Void, Void> task;

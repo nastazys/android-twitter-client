@@ -35,6 +35,7 @@ public class UserInfoTask extends TimelineTask {
         list.enqueue(new Callback<List<Tweet>>() {
             @Override
             public void success(Result<List<Tweet>> result) {
+                tweetAdapter.clearItems();
                 tweetAdapter.setItems(result.data);
                 context.displayUserInfo(result.data.get(0).user);
             }

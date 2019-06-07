@@ -2,6 +2,8 @@ package com.example.twitty.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,11 +13,16 @@ import com.twitter.sdk.android.core.TwitterCore;
 
 import com.twitter.sdk.android.core.TwitterSession;
 
-abstract class StandardTimelineActivity extends TimelineActivity {
+abstract class StandardTimelineActivity extends TimelineActivity implements SwipeRefreshLayout.OnRefreshListener{
+    protected SwipeRefreshLayout swipeHome;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadTweets();
+
+        swipeHome = (SwipeRefreshLayout) findViewById(R.id.swipe_home);
+        swipeHome.setOnRefreshListener(this);
     }
 
     @Override
@@ -46,5 +53,17 @@ abstract class StandardTimelineActivity extends TimelineActivity {
             startActivity(intent);
         }
         return true;
+    }
+
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initTask();
+                loadTweets();
+                swipeHome.setRefreshing(false);
+            }
+        }, 800);
     }
 }

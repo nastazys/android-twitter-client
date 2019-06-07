@@ -1,10 +1,6 @@
 package com.example.twitty.task;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.twitty.activity.MainActivity;
@@ -41,6 +37,7 @@ public class TimelineTask extends AsyncTask<Void, Void, Void> {
         list.enqueue(new Callback<List<Tweet>>() {
             @Override
             public void success(Result<List<Tweet>> result) {
+                tweetAdapter.clearItems();
                 tweetAdapter.setItems(result.data);
             }
 
